@@ -10,6 +10,7 @@ import io.quarkus.arc.profile.IfBuildProfile;
 import io.quarkus.runtime.StartupEvent;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.transaction.Transactional;
@@ -30,43 +31,163 @@ public class SampleDataBootstrap {
   void onStartup(@Observes StartupEvent startupEvent) {
     log.info("Populate sample data");
 
-    Tournament t1 = new Tournament(null, "Champions League", null, null);
-    Tournament t2 = new Tournament(null, "La Liga", null, null);
-    tournamentRepository.persist(t1);
-    tournamentRepository.persist(t2);
+    List<Tournament> tournaments = createTournaments();
+    tournamentRepository.persist(tournaments);
 
-    Match m1 = new Match(null, "Real Madrid", "Liverpool", LocalDateTime.now(), null, t1);
-    Match m2 = new Match(null, "Eintracht Frankfurt", "Napoli", LocalDateTime.now(), null, t1);
-    Match m3 = new Match(null, "Inter", "FC Porto", LocalDateTime.now(), null, t1);
-    Match m4 = new Match(null, "Real Madrid", "Atletico Madrid", LocalDateTime.now(), null, t2);
-    Match m5 = new Match(null, "Valencia", "Real Sociedad", LocalDateTime.now(), null, t2);
-    Match m6 = new Match(null, "Almeria", "FC Barcelona", LocalDateTime.now(), null, t2);
-    matchRepository.persist(m1);
-    matchRepository.persist(m2);
-    matchRepository.persist(m3);
-    matchRepository.persist(m4);
-    matchRepository.persist(m5);
-    matchRepository.persist(m6);
+    List<Match> matches = createMatches(tournaments);
+    matchRepository.persist(matches);
 
-    Bet b1 = new Bet(null, 1, 1, true, BigDecimal.valueOf(100), m1, t1);
-    Bet b2 = new Bet(null, 2, 1, false, BigDecimal.valueOf(123), m1, t1);
-    Bet b3 = new Bet(null, 0, 3, true, BigDecimal.valueOf(321), m2, t1);
-    Bet b4 = new Bet(null, 1, 2, false, BigDecimal.valueOf(444), m3, t1);
-    Bet b5 = new Bet(null, 1, 1, true, BigDecimal.valueOf(567), m3, t1);
-    Bet b6 = new Bet(null, 2, 1, true, BigDecimal.valueOf(101), m4, t2);
-    Bet b7 = new Bet(null, 1, 2, false, BigDecimal.valueOf(201), m4, t2);
-    Bet b8 = new Bet(null, 0, 2, true, BigDecimal.valueOf(222), m5, t2);
-    Bet b9 = new Bet(null, 0, 5, true, BigDecimal.valueOf(90), m6, t2);
-    Bet b10 = new Bet(null, 0, 4, true, BigDecimal.valueOf(1000), m6, t2);
-    betRepository.persist(b1);
-    betRepository.persist(b2);
-    betRepository.persist(b3);
-    betRepository.persist(b4);
-    betRepository.persist(b5);
-    betRepository.persist(b6);
-    betRepository.persist(b7);
-    betRepository.persist(b8);
-    betRepository.persist(b9);
-    betRepository.persist(b10);
+    List<Bet> bets = createBets(tournaments, matches);
+    betRepository.persist(bets);
+  }
+
+  private List<Tournament> createTournaments() {
+    return List.of(
+        Tournament.builder()
+            .name("Champions League")
+            .build(),
+        Tournament.builder()
+            .name("La Liga")
+            .build()
+    );
+  }
+
+  private List<Match> createMatches(List<Tournament> tournaments) {
+    Tournament t1 = tournaments.get(0);
+    Tournament t2 = tournaments.get(1);
+
+    return List.of(
+        Match.builder()
+            .homeTeam("Real Madrid")
+            .awayTeam("Liverpool")
+            .startTime(LocalDateTime.now())
+            .tournament(t1)
+            .build(),
+        Match.builder()
+            .homeTeam("Eintracht Frankfurt")
+            .awayTeam("Napoli")
+            .startTime(LocalDateTime.now())
+            .tournament(t1)
+            .build(),
+        Match.builder()
+            .homeTeam("Inter")
+            .awayTeam("FC Porto")
+            .startTime(LocalDateTime.now())
+            .tournament(t1)
+            .build(),
+        Match.builder()
+            .homeTeam("Real Madrid")
+            .awayTeam("Atletico Madrid")
+            .startTime(LocalDateTime.now())
+            .tournament(t2)
+            .build(),
+        Match.builder()
+            .homeTeam("Valencia")
+            .awayTeam("Real Sociedad")
+            .startTime(LocalDateTime.now())
+            .tournament(t2)
+            .build(),
+        Match.builder()
+            .homeTeam("Almeria")
+            .awayTeam("FC Barcelona")
+            .startTime(LocalDateTime.now())
+            .tournament(t2)
+            .build()
+    );
+  }
+
+  private List<Bet> createBets(List<Tournament> tournaments, List<Match> matches) {
+    Tournament t1 = tournaments.get(0);
+    Tournament t2 = tournaments.get(1);
+
+    Match m1 = matches.get(0);
+    Match m2 = matches.get(1);
+    Match m3 = matches.get(2);
+    Match m4 = matches.get(3);
+    Match m5 = matches.get(4);
+    Match m6 = matches.get(5);
+
+    return List.of(
+        Bet.builder()
+            .homeTeamGoalsPred(1)
+            .awayTeamGoalsPred(1)
+            .correct(true)
+            .betAmount(BigDecimal.valueOf(100))
+            .match(m1)
+            .tournament(t1)
+            .build(),
+        Bet.builder()
+            .homeTeamGoalsPred(2)
+            .awayTeamGoalsPred(1)
+            .correct(false)
+            .betAmount(BigDecimal.valueOf(123))
+            .match(m1)
+            .tournament(t1)
+            .build(),
+        Bet.builder()
+            .homeTeamGoalsPred(0)
+            .awayTeamGoalsPred(3)
+            .correct(true)
+            .betAmount(BigDecimal.valueOf(321))
+            .match(m2)
+            .tournament(t1)
+            .build(),
+        Bet.builder()
+            .homeTeamGoalsPred(1)
+            .awayTeamGoalsPred(2)
+            .correct(false)
+            .betAmount(BigDecimal.valueOf(444))
+            .match(m3)
+            .tournament(t1)
+            .build(),
+        Bet.builder()
+            .homeTeamGoalsPred(1)
+            .awayTeamGoalsPred(1)
+            .correct(true)
+            .betAmount(BigDecimal.valueOf(567))
+            .match(m3)
+            .tournament(t1)
+            .build(),
+        Bet.builder()
+            .homeTeamGoalsPred(2)
+            .awayTeamGoalsPred(1)
+            .correct(true)
+            .betAmount(BigDecimal.valueOf(101))
+            .match(m4)
+            .tournament(t2)
+            .build(),
+        Bet.builder()
+            .homeTeamGoalsPred(1)
+            .awayTeamGoalsPred(2)
+            .correct(false)
+            .betAmount(BigDecimal.valueOf(201))
+            .match(m4)
+            .tournament(t2)
+            .build(),
+        Bet.builder()
+            .homeTeamGoalsPred(0)
+            .awayTeamGoalsPred(2)
+            .correct(true)
+            .betAmount(BigDecimal.valueOf(222))
+            .match(m5)
+            .tournament(t2)
+            .build(),
+        Bet.builder()
+            .homeTeamGoalsPred(0)
+            .awayTeamGoalsPred(5)
+            .correct(true)
+            .betAmount(BigDecimal.valueOf(90))
+            .match(m6)
+            .tournament(t2)
+            .build(),
+        Bet.builder()
+            .homeTeamGoalsPred(0)
+            .awayTeamGoalsPred(4)
+            .correct(true)
+            .betAmount(BigDecimal.valueOf(1000))
+            .match(m6)
+            .tournament(t2)
+            .build()
+    );
   }
 }
