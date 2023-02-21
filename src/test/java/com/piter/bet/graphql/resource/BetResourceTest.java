@@ -83,7 +83,7 @@ class BetResourceTest extends AbstractResourceTest {
 
   @ParameterizedTest
   @MethodSource("provideRequestAndExpectedBets")
-  void shouldFindBetsFilteringByAmount(String request, List<Bet> expectedBets) {
+  void shouldFindBetsFiltering(String request, List<Bet> expectedBets) {
     //given input
 
     //when
@@ -145,7 +145,7 @@ class BetResourceTest extends AbstractResourceTest {
         }
         """;
 
-    final var expectedBetsFilterByAmount = List.of(
+    final List<Bet> expectedBetsFilterByAmount = List.of(
         Bet.builder()
             .id(18L)
             .homeTeamGoalsPred(0)
@@ -158,7 +158,7 @@ class BetResourceTest extends AbstractResourceTest {
             .build()
     );
 
-    final var expectedBetsFilterByCorrectAndAmount = List.of(
+    final List<Bet> expectedBetsFilterByCorrectAndAmount = List.of(
         Bet.builder()
             .id(17L)
             .homeTeamGoalsPred(0)

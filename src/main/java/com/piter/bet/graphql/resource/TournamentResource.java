@@ -27,7 +27,7 @@ public class TournamentResource {
   }
 
   @Mutation("newTournament")
-  public Tournament newTournament(@Name("input")TournamentInput tournamentInput) {
+  public Tournament newTournament(@Name("input") TournamentInput tournamentInput) {
     return tournamentService.saveTournament(tournamentInput);
   }
 }
