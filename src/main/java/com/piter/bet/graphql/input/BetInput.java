@@ -1,19 +1,14 @@
 package com.piter.bet.graphql.input;
 
 import java.math.BigDecimal;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class BetInput {
+public record BetInput(
+    int homeTeamGoalsPred,
+    int awayTeamGoalsPred,
+    boolean correct,
+    BigDecimal amount,
+    long matchId,
+    long tournamentId
+) {
 
-  private int homeTeamGoalsPred;
-  private int awayTeamGoalsPred;
-  private boolean correct;
-  private BigDecimal amount;
-  private long matchId;
-  private long tournamentId;
 }

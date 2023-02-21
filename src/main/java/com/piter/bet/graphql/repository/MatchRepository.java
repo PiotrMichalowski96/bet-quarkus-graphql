@@ -60,13 +60,13 @@ public class MatchRepository implements PanacheRepository<Match> {
     CriteriaQuery<Match> criteriaQuery = builder.createQuery(Match.class);
     Root<Match> root = criteriaQuery.from(Match.class);
     Predicate predicate = null;
-    if (matchFilter.getHomeTeam() != null) {
-      predicate = matchFilter.getHomeTeam().criteria(builder, root.get("homeTeam"));
+    if (matchFilter.homeTeam() != null) {
+      predicate = matchFilter.homeTeam().criteria(builder, root.get("homeTeam"));
     }
-    if (matchFilter.getAwayTeam() != null) {
+    if (matchFilter.awayTeam() != null) {
       predicate = (predicate == null ?
-          matchFilter.getAwayTeam().criteria(builder, root.get("awayTeam")) :
-          builder.and(predicate, matchFilter.getAwayTeam().criteria(builder, root.get("awayTeam"))));
+          matchFilter.awayTeam().criteria(builder, root.get("awayTeam")) :
+          builder.and(predicate, matchFilter.awayTeam().criteria(builder, root.get("awayTeam"))));
     }
     if (predicate != null) {
       criteriaQuery.where(predicate);

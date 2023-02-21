@@ -32,11 +32,11 @@ public class MatchService {
 
   @Transactional
   public Match saveMatch(MatchInput matchInput) {
-    Tournament tournament = tournamentRepository.findById(matchInput.getTournamentId());
+    Tournament tournament = tournamentRepository.findById(matchInput.tournamentId());
     var match = Match.builder()
-        .homeTeam(matchInput.getHomeTeam())
-        .awayTeam(matchInput.getAwayTeam())
-        .startTime(matchInput.getStartTime())
+        .homeTeam(matchInput.homeTeam())
+        .awayTeam(matchInput.awayTeam())
+        .startTime(matchInput.startTime())
         .tournament(tournament)
         .build();
     matchRepository.persist(match);

@@ -25,7 +25,7 @@ public class TournamentService {
   @Transactional
   public Tournament saveTournament(TournamentInput tournamentInput) {
     var tournament = Tournament.builder()
-        .name(tournamentInput.getName())
+        .name(tournamentInput.name())
         .build();
     tournamentRepository.persist(tournament);
     return tournament;

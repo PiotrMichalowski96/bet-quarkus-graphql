@@ -23,13 +23,13 @@ public class BetRepository implements PanacheRepository<Bet> {
     CriteriaQuery<Bet> criteriaQuery = builder.createQuery(Bet.class);
     Root<Bet> root = criteriaQuery.from(Bet.class);
     Predicate predicate = null;
-    if (betFilter.getBetAmount() != null) {
-      predicate = betFilter.getBetAmount().criteria(builder, root.get("betAmount"));
+    if (betFilter.betAmount() != null) {
+      predicate = betFilter.betAmount().criteria(builder, root.get("betAmount"));
     }
-    if (betFilter.getCorrect() != null) {
+    if (betFilter.correct() != null) {
       predicate = (predicate == null ?
-          betFilter.getCorrect().criteria(builder, root.get("correct")) :
-          builder.and(predicate, betFilter.getCorrect().criteria(builder, root.get("correct"))));
+          betFilter.correct().criteria(builder, root.get("correct")) :
+          builder.and(predicate, betFilter.correct().criteria(builder, root.get("correct"))));
     }
     if (predicate != null) {
       criteriaQuery.where(predicate);

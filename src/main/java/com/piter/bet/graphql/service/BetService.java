@@ -35,13 +35,13 @@ public class BetService {
 
   @Transactional
   public Bet saveBet(BetInput betInput) {
-    Tournament tournament = tournamentRepository.findById(betInput.getTournamentId());
-    Match match = matchRepository.findById(betInput.getMatchId());
+    Tournament tournament = tournamentRepository.findById(betInput.tournamentId());
+    Match match = matchRepository.findById(betInput.matchId());
     var bet = Bet.builder()
-        .homeTeamGoalsPred(betInput.getHomeTeamGoalsPred())
-        .awayTeamGoalsPred(betInput.getAwayTeamGoalsPred())
-        .correct(betInput.isCorrect())
-        .betAmount(betInput.getAmount())
+        .homeTeamGoalsPred(betInput.homeTeamGoalsPred())
+        .awayTeamGoalsPred(betInput.awayTeamGoalsPred())
+        .correct(betInput.correct())
+        .betAmount(betInput.amount())
         .match(match)
         .tournament(tournament)
         .build();

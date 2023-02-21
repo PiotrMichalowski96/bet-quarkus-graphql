@@ -1,11 +1,10 @@
 package com.piter.bet.graphql.filter;
 
 import com.piter.bet.graphql.filter.common.TextFilter;
-import lombok.Data;
 
-@Data
-public class MatchFilter {
+public record MatchFilter(
+    TextFilter homeTeam,
+    TextFilter awayTeam
+) {
 
-  private TextFilter homeTeam;
-  private TextFilter awayTeam;
 }
