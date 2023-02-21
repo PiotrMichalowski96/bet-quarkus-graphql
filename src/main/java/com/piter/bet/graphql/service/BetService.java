@@ -37,7 +37,7 @@ public class BetService {
   public Bet saveBet(BetInput betInput) {
     Tournament tournament = tournamentRepository.findById(betInput.getTournamentId());
     Match match = matchRepository.findById(betInput.getMatchId());
-    Bet bet = Bet.builder()
+    var bet = Bet.builder()
         .homeTeamGoalsPred(betInput.getHomeTeamGoalsPred())
         .awayTeamGoalsPred(betInput.getAwayTeamGoalsPred())
         .correct(betInput.isCorrect())

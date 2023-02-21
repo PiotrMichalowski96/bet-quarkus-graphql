@@ -1,13 +1,10 @@
 package com.piter.bet.graphql.resource;
 
-import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.piter.bet.graphql.domain.Bet;
 import com.piter.bet.graphql.domain.Match;
 import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.http.ContentType;
-import io.restassured.response.Response;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Stream;
@@ -17,7 +14,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @QuarkusTest
-class BetResourceTest {
+class BetResourceTest extends AbstractResourceTest {
 
   @Test
   void shouldFindAllBets() {
@@ -180,19 +177,5 @@ class BetResourceTest {
         Arguments.of(requestFilterByAmount, expectedBetsFilterByAmount),
         Arguments.of(requestFilterByCorrectAndAmount, expectedBetsFilterByCorrectAndAmount)
     );
-  }
-
-  private Response send(String request) {
-    return given()
-        .contentType(ContentType.JSON)
-        .body(request)
-        .when()
-        .post("/graphql")
-        .then()
-        .assertThat()
-        .statusCode(200)
-        .and()
-        .extract()
-        .response();
   }
 }
