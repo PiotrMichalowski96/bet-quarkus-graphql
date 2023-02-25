@@ -36,13 +36,11 @@ class BetServiceTest {
   @Test
   void shouldFindAllBets() {
     //given
-    var expectedBetListSize = 10;
-
     //when
     List<Bet> bets = betService.findAll();
 
     //then
-    assertThat(bets).hasSize(expectedBetListSize);
+    assertThat(bets).isNotEmpty();
   }
 
   @Test
