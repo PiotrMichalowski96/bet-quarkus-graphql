@@ -20,6 +20,7 @@
     <sonar.projectKey>PiotrMichalowski96_bet-quarkus-graphql</sonar.projectKey>
     <sonar.organization>piotrmichalowski96</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.coverage.exclusions>**/bootstrap/*, **/domain/*, **/input/*</sonar.coverage.exclusions>
   </properties>
 
   <dependencyManagement>
