@@ -21,7 +21,7 @@
     <sonar.organization>piotrmichalowski96</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.coverage.exclusions>**/domain/*</sonar.coverage.exclusions>
-    <sonar.coverage.jacoco.xmlReportPaths>>${project.basedir}/../target/jacoco-report/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    <sonar.coverage.jacoco.xmlReportPaths>>target/jacoco-report/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 
   <dependencyManagement>
